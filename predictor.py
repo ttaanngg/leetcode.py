@@ -21,12 +21,13 @@ def predict(shop_id):
         future_df = m.make_future_dataframe(periods=14)
         future_df['cap'] = np.log(y_max * 1.5)
         forecast = m.predict(future_df)
+        forecast['yhat'] = np.exp(forecast['yhat'])
     except:  # if failed use linear predict
         df['y'] = df[1]
         m = Prophet()
         m.fit(df)
         forecast = m.predict(m.make_future_dataframe(periods=14))
-
+    forecast['yhat'] = np.round(forecast['yhat'])
     forecast.tail(14).to_csv('/mnt/huge/tianchi/stream_predicts/%d.csv' % shop_id, index=False)
 
 
