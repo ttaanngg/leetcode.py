@@ -1,4 +1,4 @@
 #/bin/bash
 
-
-python3 preditor.py
+cd "${0%/*}"
+python3 ./preditor.py

@@ -16,15 +16,15 @@ def predict(shop_id):
         y_max = np.max(df[1])
         df['y'] = np.log(df[1])
         df['cap'] = np.log(y_max)
-        m = Prophet(growth='logistic')
+        m = Prophet(growth='logistic', mcmc_samples=500)
         m.fit(df)
         future_df = m.make_future_dataframe(periods=14)
-        future_df['cap'] = np.log(y_max * 1.5)
+        future_df['cap'] = np.log(y_max * 1.1)
         forecast = m.predict(future_df)
         forecast['yhat'] = np.exp(forecast['yhat'])
     except:  # if failed use linear predict
         df['y'] = df[1]
-        m = Prophet()
+        m = Prophet(mcmc_samples=500)
         m.fit(df)
         forecast = m.predict(m.make_future_dataframe(periods=14))
     forecast['yhat'] = np.round(forecast['yhat'])
