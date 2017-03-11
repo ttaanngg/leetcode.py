@@ -7,18 +7,26 @@ class Solution(object):
         :type n: int
         :rtype: int
         """
-        result = [0] * (n + 1)
-        sqrt = lambda x: int(round(math.sqrt(x)))
-        perfect = set()
+        perfect = []
+        i = 1
+        while i * i <= n:
+            perfect.append(i)
+            i += 1
 
-        for i in range(1, n + 1):
-            s = sqrt(i)
-            if s * s == i:
-                perfect.add(i)
-                result[i] = 1
-            else:
-                result[i] = 1 + min(result[j] for j in range(i) if (i - j) in perfect)
-        return result[n]
+        toCheck = {n}
+        cnt = 0
+        while toCheck:
+            cnt += 1
+            tmp = set()
+            for x in toCheck:
+                for y in perfect:
+                    if x == y:
+                        return cnt
+                    if x < y:
+                        break
+                    tmp.add(x - y)
+            toCheck = tmp
+        return cnt
 
 
 solution = Solution()
