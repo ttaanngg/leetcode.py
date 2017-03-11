@@ -3,18 +3,23 @@ import math
 
 class Solution(object):
     def numSquares(self, n):
-        def core(i):
-            diff = i - int(math.sqrt(i)) ** 2
-            if diff == 0:
-                return 1
-            return 1 + core(diff)
-        r = core(n)
-        return r if r else 1
+        """
+        :type n: int
+        :rtype: int
+        """
+        result = [0] * (n + 1)
+        sqrt = lambda x: int(round(math.sqrt(x)))
+        perfect = set()
+
+        for i in range(1, n + 1):
+            s = sqrt(i)
+            if s * s == i:
+                perfect.add(i)
+                result[i] = 1
+            else:
+                result[i] = 1 + min(result[j] for j in range(i) if (i - j) in perfect)
+        return result[n]
 
 
 solution = Solution()
-
-print solution.numSquares(12)
-print solution.numSquares(2)
-print solution.numSquares(4)
-print solution.numSquares(13)
+print solution.numSquares(7217)
