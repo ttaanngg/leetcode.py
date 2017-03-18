@@ -2,21 +2,22 @@ class Solution(object):
     def alienOrder(self, words):
         relations = {}
         alphas = set()
-        next_turn = words
+        next_turn = range(1, len(words))
         count = 0
         while next_turn:
             tmp = []
-            if len(next_turn[0]) > count + 1:
+            if len(words[next_turn[0]]) > count + 1:
                 tmp.append(next_turn[0])
-            for i in range(1, len(next_turn)):
-                a = next_turn[i - 1][count]
-                b = next_turn[i][count]
+            for i in range(len(next_turn)):
+                a = words[next_turn[i - 1]][count]
+                b = words[next_turn[i]][count]
                 alphas.add(a)
                 alphas.add(b)
-                if len(next_turn[i]) > count + 1:
+                if len(words[next_turn[i]]) > count + 1:
                     tmp.append(next_turn[i])
-
                 if a == b:
+                    continue
+                if a in relations and b in relations[a] and next_turn[i - 1] + 1 != next_turn[i]:
                     continue
                 relations.setdefault(b, set()).add(a)
             count += 1
