@@ -1,19 +1,5 @@
 from collections import Counter
 
-from functools import wraps
-
-
-def memo(f):
-    cache = {}
-
-    @wraps(f)
-    def wrap(*args):
-        if args not in cache:
-            cache[args] = f(*args)
-        return cache[args]
-
-    return wrap
-
 
 class Solution(object):
     def lengthOfLongestSubstringKDistinct(self, s, k):
@@ -22,18 +8,24 @@ class Solution(object):
         :type k: int
         :rtype: int
         """
+        max_length = 0
+        left = 0
+        c = {}
+        for i in range(len(s)):
+            c[s[i]] = c.setdefault(s[i], 0) + 1
+            while len(c) > k:
+                v = c[s[left]]
+                if v == 1:
+                    c.pop(s[left])
+                else:
+                    c[s[left]] = v - 1
+                left += 1
+            max_length = max(i - left + 1, max_length)
 
-        @memo
-        def rec(a, b):
-            if a == b:
-                return 1
-            l = [(b - i + 1) for i in range(a, b) if set(s[i:b]) < k]
-            if l:
-                return max(l)
-            return 1
+        return max_length
 
-        return max(rec(0, i) for i in range(len(s)))
 
+import a
 
 solution = Solution()
-print solution.lengthOfLongestSubstringKDistinct("eceba", 2)
+print solution.lengthOfLongestSubstringKDistinct(a.a, a.b)
