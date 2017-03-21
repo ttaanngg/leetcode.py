@@ -1,5 +1,3 @@
-from pprint import pprint
-
 from collections import deque
 
 
@@ -50,7 +48,7 @@ class Solution(object):
 
 solution = Solution()
 
-pprint(solution.updateMatrix([
+print (solution.updateMatrix([
     [0, 0, 0],
     [0, 1, 0],
     [1, 1, 1],
